@@ -1,1 +1,4 @@
-ai_agent/
+/ai_agent
+requrements
+/data
+.env
