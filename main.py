@@ -8,6 +8,7 @@ from prompts import new_prompt, instruction_str, context
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from note_engine import note_engine
+from pdf_doc import document_engine
 #import google.generativeai as genai
 
 load_dotenv()
@@ -35,7 +36,14 @@ tools = [
             description="this gives information at the world population and demographics",
         ),
     ),
-    note_engine
+    note_engine,
+    QueryEngineTool(
+        query_engine=document_engine,
+        metadata=ToolMetadata(
+            name="country_data",
+            description="tis gives deteiled information about Poland the country",
+        ),
+    )
 ]
 
 agent = ReActAgent.from_tools(
