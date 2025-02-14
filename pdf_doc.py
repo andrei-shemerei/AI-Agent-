@@ -1,17 +1,12 @@
 import os
-from dotenv import load_dotenv
 from llama_index.core import StorageContext, VectorStoreIndex, load_index_from_storage
 from llama_index.readers.file import PDFReader
-from llama_index.embeddings.gemini import GeminiEmbedding
-import google.generativeai as genai
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core import Settings
 
 Settings.llm = None
 
-load_dotenv()
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
-embed_model = GeminiEmbedding()
+embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 def get_index(data, index_name):
     index=None
