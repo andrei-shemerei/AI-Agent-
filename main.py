@@ -1,7 +1,5 @@
-from dotenv import load_dotenv
 import os
 import pandas as pd 
-from llama_index.llms.gemini import Gemini
 from llama_index.core import Settings
 from llama_index.experimental.query_engine import PandasQueryEngine
 from prompts import new_prompt, instruction_str, context
@@ -9,14 +7,10 @@ from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from note_engine import note_engine
 from pdf_doc import document_engine
-#import google.generativeai as genai
+from llm import get_llm
 
-load_dotenv()
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-#genai.configure(api_key=GOOGLE_API_KEY)
-
-llm = Gemini()
+llm = get_llm()
 Settings.llm = llm
 
 csv_data_path = os.path.join("data", "WorldPopulation2023.csv")
@@ -56,10 +50,9 @@ agent = ReActAgent.from_tools(
 
 while True:
     prompt = input("Enter a prompt (or tupe 'q' to exit): ")
-    if prompt == "q":
+    if prompt.lower() == "q":
         print("Programm is existing")
         break
 
     result = agent.query(prompt)
     print(result)
-    
